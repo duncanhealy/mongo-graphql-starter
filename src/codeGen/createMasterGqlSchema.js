@@ -40,6 +40,8 @@ export default function createMasterGqlSchema(types, rootDir) {
       let esModule = require(newPath).default;
       esModule.Query && extraQueries.push(esModule.Query);
       esModule.Mutation && extraMutations.push(esModule.Mutation);
+      // stop modules that act as servers
+      process.exit(0);
     });
 
     return {
@@ -75,7 +77,8 @@ export default function createMasterGqlSchema(types, rootDir) {
       let esModule = require(newPath).default;
       esModule.Query && extraQueries.push(esModule.Query);
       esModule.Mutation && extraMutations.push(esModule.Mutation);
-      console.table(extraMutations);
+      // stop modules that act as servers
+      process.exit(0);
     });
 
     return {
@@ -95,6 +98,7 @@ ${tableTypePackets.map(p => p.types).join("\n\n")}
 
 type Query {
 ${tableTypePackets.map(p => p.query).join("\n\n")}
+${tablelessTypePackets.map(p => p.query).join("\n\n")}
 }
 
 ${
