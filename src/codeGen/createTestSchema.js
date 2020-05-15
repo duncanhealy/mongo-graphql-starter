@@ -70,7 +70,21 @@ export default function createTestSchema(names, namesWithTables, namesWithoutTab
         return `await processQuery(\`{all${n}s(LIMIT:1){${n}s{${fieldNames}}}}\`,"${n}", "${fieldNames}")`;
       })
       .join(".catch((error) => console.error(error))\n")}
-
+  ${
+    writeableNames.length
+      ? `
+    ${writeableNames
+      .map(n => {
+        const a = types.filter(t => t.__name === n);
+        // console.log({n,f:a[0].fields})
+        const fields = a[0].fields;
+        console.log(a);
+        return `await processQuery(\`mutation:{${n}(${JSON.stringify(fields)})}\`,"${n}", "")`;
+      })
+      .join(".catch((error) => console.error(error))\n")} 
+  `
+      : ""
+  }
 }
 runQueries().catch((error) => console.error(error))
 `;
