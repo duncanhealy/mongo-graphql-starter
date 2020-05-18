@@ -41,7 +41,7 @@ export default function createMasterGqlSchema(types, rootDir) {
       esModule.Query && extraQueries.push(esModule.Query);
       esModule.Mutation && extraMutations.push(esModule.Mutation);
       // stop modules that act as servers
-      process.exit(0);
+      // process.exit(0);
     });
 
     return {
@@ -78,7 +78,7 @@ export default function createMasterGqlSchema(types, rootDir) {
       esModule.Query && extraQueries.push(esModule.Query);
       esModule.Mutation && extraMutations.push(esModule.Mutation);
       // stop modules that act as servers
-      process.exit(0);
+      // process.exit(0);
     });
 
     return {
@@ -108,10 +108,11 @@ ${tableTypePackets
   .filter(t => !t.readonly)
   .map(p => p.mutation)
   .join("\n\n")}
-  ${tablelessTypePackets
-    .filter(t => !t.readonly)
-    .map(p => p.mutation)
-    .join("\n\n")}
+  ${
+  tablelessTypePackets
+  .filter(t => !t.readonly)
+  .map(p => p.mutation)
+  .join("\n\n")}
 }`
     : ""
 }
