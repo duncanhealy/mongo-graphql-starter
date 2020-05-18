@@ -110,6 +110,9 @@ export default function (source, destPath, options = {}) {
         }
       } else {
         namesWithoutTables.push(objName);
+        if (!objectToCreate.readonly) {
+          namesWriteable.push(objName);
+        }
       }
 
       createFile(objPath, formatJs(createOutputTypeMetadata(objectToCreate)), true, modulePath);
@@ -133,7 +136,7 @@ export default function (source, destPath, options = {}) {
       });
     }
 
-    fs.writeFileSync(path.join(rootDir, "resolver.js"), formatJs(createMasterResolver(namesWithTables, namesWriteable)));
+    fs.writeFileSync(path.join(rootDir, "resolver.js"), formatJs(createMasterResolver(namesWithTables, namesWriteable, namesWithoutTables)));
     if (!options.hooks && !fs.existsSync(path.join(rootDir, "hooks.js"))) {
       fs.writeFileSync(
         path.join(rootDir, "hooks.js"),
